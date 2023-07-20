@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: grey;
+  font-family: "Noto Serif Khitan Small Script", sans-serif;
+  user-select: none;
+}
+
+main {
+  margin: 0 auto;
+  width: 90vw;
+  max-width: 1500px;
+  height: 90vh;
+  border-radius: 0 0 50% 50%;
+  background-image: url("./imgs/table.png");
+  background-size: cover;
+  text-align: center;
+  box-shadow: 0 0 10px black;
+}
+
+h1 {
+  margin-top: 100px;
+  color: gold;
+  font-size: 3rem;
+}
+header {
+  padding-top: 10px;
+}
+button {
+  margin-top: 100px;
+  font-size: 2rem;
+  background-color: gold;
+  border: none;
+  border-radius: 10px;
+  padding: 0.5em;
+  cursor: pointer;
+  font-family: "Noto Serif Khitan Small Script", sans-serif;
+  line-height: 1.5;
+  animation-name: btn-background;
+  animation-duration: 1.5s;
+  animation-delay: 4s;
+  animation-iteration-count: infinite;
+}
+button:hover {
+  translate: 0px 3px;
+}
+@keyframes btn-background {
+  0% {
+    background-color: gold;
+    color: black;
+  }
+
+  50% {
+    background-color: orangered;
+    color: white;
+    box-shadow: 0 0 20px white;
+  }
+  100% {
+    background-color: yellow;
+    color: black;
+  }
+}
+
+/* text effect turning letters */
+.waviy {
+  margin-top: 20px;
+  position: relative;
+  font-family: "Rye", cursive;
+}
+.waviy span {
+  position: relative;
+  display: inline-block;
+  font-size: 50px;
+  color: gold;
+  text-transform: uppercase;
+  animation: flip 2s infinite;
+  animation-delay: calc(0.2s * var(--i));
+}
+@keyframes flip {
+  0%,
+  80% {
+    transform: rotateY(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  main {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+  h1 {
+    font-size: 2rem;
+    line-height: 1.5;
+  }
+  .waviy span {
+    font-size: 40px;
+  }
+}
