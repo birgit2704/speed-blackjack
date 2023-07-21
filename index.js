@@ -31,8 +31,15 @@ const replace = {
 };
 
 startBtn.addEventListener("click", startGame);
-level1Btn.addEventListener("click", startLevel);
+level1Btn.addEventListener("click", () => {
+  startLevel();
+  run_clock("clockdiv", deadline);
+});
 playerStartBtn.addEventListener("click", () => {
+  playerStartBtn.disabled = true;
+
+  playerScore = 0;
+  dealerScore = 0;
   getCards(2, "dealer");
   getCards(2, "player");
 });
@@ -79,7 +86,6 @@ function getCards(num, player) {
         .join("");
 
       renderCards(num, player, cardsHtml, data);
-      playerStartBtn.disabled = true;
     });
 }
 
@@ -112,7 +118,7 @@ function determineWinner(player, data) {
   if (playerScore < 21) {
     newCardBtn.disabled = false;
     noNewCardBtn.disabled = false;
-  }
+  } else endGame();
 }
 
 function endGame() {
@@ -137,12 +143,44 @@ function endGame() {
       console.log("you lose");
     }
   }
-  playerStartBtn.disabled = false;
+
   newCardBtn.disabled = true;
   noNewCardBtn.disabled = true;
+  playerStartBtn.disabled = false;
 }
 
 // rules and timer elements
+const time_in_minutes = 1;
+const current_time = Date.parse(new Date());
+const deadline = new Date(current_time + time_in_minutes * 60 * 1000);
+
+function time_remaining(endtime) {
+  const t = Date.parse(endtime) - Date.parse(new Date());
+  const seconds = Math.floor((t / 1000) % 60);
+  const minutes = Math.floor((t / 1000 / 60) % 60);
+  const hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    total: t,
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+  };
+}
+function run_clock(id, endtime) {
+  const clock = document.getElementById(id);
+  function update_clock() {
+    let t = time_remaining(endtime);
+    clock.innerHTML = "Time left: " + t.minutes + ":" + t.seconds;
+    if (t.total <= 0) {
+      clearInterval(timeinterval);
+      // Message time is up
+    }
+  }
+  update_clock(); // run function once at first to avoid delay
+  const timeinterval = setInterval(update_clock, 1000);
+}
 
 // text effect typewriter
 document.addEventListener("DOMContentLoaded", typeWriter);
