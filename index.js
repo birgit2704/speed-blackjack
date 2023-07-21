@@ -12,13 +12,32 @@ const gameAreaEl = document.getElementById("game-area");
 const rulesEl = document.getElementById("rules");
 const timerEl = document.getElementById("timer");
 let deckId = "";
+let dealerScore = 0;
+let playerScore = 0;
+const replace = {
+  2: "2",
+  3: "3",
+  4: "4",
+  5: "5",
+  6: "6",
+  7: "7",
+  8: "8",
+  9: "9",
+  10: "10",
+  JACK: "10",
+  QUEEN: "10",
+  KING: "10",
+  ACE: "1",
+};
 
 startBtn.addEventListener("click", startGame);
 level1Btn.addEventListener("click", startLevel);
-playerStartBtn.addEventListener("click", function () {
+playerStartBtn.addEventListener("click", () => {
   getCards(2, "dealer");
   getCards(2, "player");
 });
+noNewCardBtn.addEventListener("click", endGame);
+newCardBtn.addEventListener("click", () => getCards(1, "player"));
 
 function startGame() {
   document.getElementById("header").style.display = "none";
@@ -30,6 +49,7 @@ function startLevel() {
   level1El.style.display = "none";
   gameAreaEl.style.display = "flex";
   timerEl.style.display = "block";
+
   //set countdown
   getDeck();
 }
@@ -53,12 +73,73 @@ function getCards(num, player) {
       cardsHtml = data.cards
         .map((el) => {
           return `
-    <img class="card" src="${el.image}"/>
+    <img class="card placeholder" src="${el.image}"/>
     `;
         })
         .join("");
-      document.getElementById(`${player}-cards`).innerHTML = cardsHtml;
+
+      renderCards(num, player, cardsHtml, data);
+      playerStartBtn.disabled = true;
     });
+}
+
+function renderCards(num, player, cardsHtml, data) {
+  if (num == 1) {
+    document.getElementById(`${player}-cards`).innerHTML += cardsHtml;
+    determineWinner(player, data);
+  } else {
+    document.getElementById(`${player}-cards`).innerHTML = cardsHtml;
+    determineWinner(player, data);
+  }
+}
+
+function determineWinner(player, data) {
+  if (player === "player") {
+    playerScore += data.cards
+      .map((el) => replace[el.value])
+      .map((el) => +el)
+      .reduce((sum, el) => sum + el);
+  } else {
+    dealerScore += data.cards
+      .map((el) => replace[el.value])
+      .map((el) => +el)
+      .reduce((sum, el) => sum + el);
+  }
+
+  console.log("dealer", dealerScore);
+  console.log("player", playerScore);
+
+  if (playerScore < 21) {
+    newCardBtn.disabled = false;
+    noNewCardBtn.disabled = false;
+  }
+}
+
+function endGame() {
+  if (playerScore === 21) {
+    if (dealerScore === 21) {
+      console.log("both win");
+    } else {
+      console.log("Blackjack you win");
+    }
+  } else if (playerScore > 21) {
+    if (dealerScore > 21) {
+      console.log("you both lose");
+    } else {
+      console.log("you lose");
+    }
+  } else if (playerScore < 21) {
+    if (dealerScore > 21) {
+      console.log("you win");
+    } else if (playerScore > dealerScore) {
+      console.log("you win");
+    } else if (playerScore < dealerScore) {
+      console.log("you lose");
+    }
+  }
+  playerStartBtn.disabled = false;
+  newCardBtn.disabled = true;
+  noNewCardBtn.disabled = true;
 }
 
 // rules and timer elements
