@@ -9,7 +9,6 @@ const level1El = document.getElementById("level1");
 const level2El = document.getElementById("level2");
 const level3El = document.getElementById("level3");
 const gameAreaEl = document.getElementById("game-area");
-const rulesEl = document.getElementById("rules");
 const timerEl = document.getElementById("timer");
 let deckId = "";
 let dealerScore = 0;
@@ -30,7 +29,15 @@ const replace = {
   ACE: "1",
 };
 
-startBtn.addEventListener("click", startGame);
+document.getElementById("rules").addEventListener("click", function () {
+  document.getElementById("rules-modal").style.display = "block";
+});
+document
+  .getElementById("close-rules-btn")
+  .addEventListener("click", function () {
+    document.getElementById("rules-modal").style.display = "none";
+  });
+startBtn.addEventListener("click", startBlackjack);
 level1Btn.addEventListener("click", () => {
   startLevel();
 });
@@ -45,7 +52,7 @@ playerStartBtn.addEventListener("click", () => {
 noNewCardBtn.addEventListener("click", endGame);
 newCardBtn.addEventListener("click", () => getCards(1, "player"));
 
-function startGame() {
+function startBlackjack() {
   document.getElementById("header").style.display = "none";
   startBtn.style.display = "none";
   level1El.style.display = "block";
@@ -150,11 +157,14 @@ function endGame() {
 
 // rules and timer elements
 function startCountdown() {
-  let count = 60,
-    timer = setInterval(function () {
-      document.getElementById("timer").innerHTML = count--;
-      if (count == 1) clearInterval(timer);
-    }, 1000);
+  let count = 10;
+  let timer = setInterval(function () {
+    document.getElementById("timer").innerHTML = count--;
+    if (count === -1) {
+      clearInterval(timer);
+      console.log("time is up");
+    }
+  }, 1000);
 }
 
 // text effect typewriter

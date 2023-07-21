@@ -150,6 +150,7 @@ button.player-control {
   background-color: #555;
   width: 75vw;
   max-width: 800px;
+  /* overflow-y: scroll; */
   line-height: 1.5;
   position: absolute;
   top: 0;
@@ -161,20 +162,20 @@ button.player-control {
   box-shadow: 0 0 20px black;
 }
 .rules-modal h2 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
 }
 .rules-modal h3 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 0;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 .rules-modal p {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 .rules-modal button {
   animation: none;
   margin-top: 0;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
 .timer {
   background-color: rgb(255, 255, 255, 0.5);
@@ -223,5 +224,17 @@ button.player-control {
   }
   .waviy span {
     font-size: 40px;
+  }
+}
+@media (max-width: 550px) {
+  .rules-modal {
+    overflow-y: scroll;
+  }
+  .rules-modal h2 {
+    font-size: 1rem;
+  }
+  .rules-modal h3,
+  .rules-modal p {
+    font-size: 0.95rem;
   }
 }
