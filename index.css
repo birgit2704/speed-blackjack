@@ -5,6 +5,9 @@ body {
   background-color: grey;
   font-family: "Noto Serif Khitan Small Script", sans-serif;
   user-select: none;
+  font-family: "Noto Serif Khitan Small Script", sans-serif;
+  color: gold;
+  position: relative;
 }
 
 main {
@@ -17,12 +20,23 @@ main {
   background-size: cover;
   text-align: center;
   box-shadow: 0 0 10px black;
+  position: relative;
 }
 
 h1 {
   margin-top: 100px;
-  color: gold;
   font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-top: 0;
+}
+p {
+  font-size: 2rem;
+  width: 70%;
+  margin: 10px auto;
+  line-height: 1.5;
 }
 header {
   padding-top: 10px;
@@ -45,6 +59,12 @@ button {
 button:hover {
   translate: 0px 3px;
 }
+
+button.player-control {
+  animation: none;
+  font-size: 1.2rem;
+  margin-top: 40px;
+}
 @keyframes btn-background {
   0% {
     background-color: gold;
@@ -60,6 +80,70 @@ button:hover {
     background-color: yellow;
     color: black;
   }
+}
+
+/* level headers */
+.level1,
+.level2,
+.level3,
+.game-area {
+  display: none;
+}
+
+/* game area */
+
+.game-area {
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.dealer-cards,
+.player-cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+}
+.dealer p {
+  color: rgb(255, 215, 0, 0.7);
+}
+
+.placeholder {
+  width: 13%;
+  aspect-ratio: 5/7;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+/* rules and timer elements */
+.rules {
+  bottom: 10px;
+  left: 0;
+  cursor: pointer;
+  position: absolute;
+  background-color: rgb(255, 255, 255, 0.5);
+  color: black;
+  border-radius: 10px;
+  width: 100px;
+}
+
+.rules:hover {
+  background-color: white;
+}
+.rules p {
+  font-size: 1.5rem;
+}
+.timer {
+  background-color: rgb(255, 255, 255, 0.5);
+  color: black;
+  position: absolute;
+  top: 5px;
+  right: 0;
+  font-size: 1.5rem;
+  line-height: 1.5;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  display: none;
 }
 
 /* text effect turning letters */
