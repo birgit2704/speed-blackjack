@@ -12,8 +12,8 @@ body {
 
 main {
   margin: 0 auto;
-  width: 90vw;
-  max-width: 1500px;
+  width: 100vw;
+  /* max-width: 1500px; */
   height: 90vh;
   border-radius: 0 0 50% 50%;
   background-image: url("./imgs/table.png");
@@ -64,6 +64,7 @@ button.player-control {
   animation: none;
   font-size: 1.2rem;
   margin-top: 40px;
+  word-spacing: -7px;
 }
 @keyframes btn-background {
   0% {
@@ -108,13 +109,19 @@ button.player-control {
   color: rgb(255, 215, 0, 0.7);
 }
 
-.placeholder {
+.placeholder,
+.card {
   width: 13%;
+  max-width: 170px;
+  min-width: 150px;
   aspect-ratio: 5/7;
   border: 2px solid black;
   border-radius: 10px;
 }
 
+.dealer-cards img {
+  opacity: 0.7;
+}
 /* rules and timer elements */
 .rules {
   bottom: 10px;

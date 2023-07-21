@@ -3,18 +3,22 @@ const level1Btn = document.getElementById("level1-btn");
 const level2Btn = document.getElementById("level2-btn");
 const level3Btn = document.getElementById("level3-btn");
 const playerStartBtn = document.getElementById("player-start-btn");
-const anotherCardBtn = document.getElementById("another-card-btn");
-const giveUpBtn = document.getElementById("give-up-btn");
-const showDealerCardsBtn = document.getElementById("show-dealer-card-btn");
+const newCardBtn = document.getElementById("new-card-btn");
+const noNewCardBtn = document.getElementById("no-new-card-btn");
 const level1El = document.getElementById("level1");
 const level2El = document.getElementById("level2");
 const level3El = document.getElementById("level3");
 const gameAreaEl = document.getElementById("game-area");
 const rulesEl = document.getElementById("rules");
 const timerEl = document.getElementById("timer");
+let deckId = "";
 
 startBtn.addEventListener("click", startGame);
 level1Btn.addEventListener("click", startLevel);
+playerStartBtn.addEventListener("click", function () {
+  getCards(2, "dealer");
+  getCards(2, "player");
+});
 
 function startGame() {
   document.getElementById("header").style.display = "none";
@@ -26,6 +30,35 @@ function startLevel() {
   level1El.style.display = "none";
   gameAreaEl.style.display = "flex";
   timerEl.style.display = "block";
+  //set countdown
+  getDeck();
+}
+
+function getDeck() {
+  fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
+    .then((res) => res.json())
+    .then((data) => {
+      deckId = data.deck_id;
+      console.log(deckId);
+    });
+}
+
+function getCards(num, player) {
+  let cardsHtml = "";
+  fetch(
+    `https://apis.scrimba.com/deckofcards/api/deck/${deckId}/draw/?count=${num}`
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      cardsHtml = data.cards
+        .map((el) => {
+          return `
+    <img class="card" src="${el.image}"/>
+    `;
+        })
+        .join("");
+      document.getElementById(`${player}-cards`).innerHTML = cardsHtml;
+    });
 }
 
 // rules and timer elements
