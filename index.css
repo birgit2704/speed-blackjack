@@ -110,7 +110,7 @@ button.player-control {
 .card {
   width: 13%;
   max-width: 170px;
-  min-width: 150px;
+
   aspect-ratio: 5/7;
   border: 2px solid black;
   border-radius: 10px;
@@ -118,7 +118,7 @@ button.player-control {
 
 .no-show {
   background-color: blue;
-  font-size: 3rem;
+  font-size: 2em;
   margin: 0;
   padding: 0;
 }
@@ -224,6 +224,16 @@ button.player-control {
   }
   .waviy span {
     font-size: 40px;
+  }
+  .no-show {
+    font-size: 1em;
+  }
+  .general-container {
+    height: 98.5vh;
+  }
+  .game-area {
+    justify-content: center;
+    gap: 100px;
   }
 }
 @media (max-width: 550px) {

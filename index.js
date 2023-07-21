@@ -13,6 +13,7 @@ const timerEl = document.getElementById("timer");
 let deckId = "";
 let dealerScore = 0;
 let playerScore = 0;
+let cardsHtmlDealerComplete = "";
 const replace = {
   2: "2",
   3: "3",
@@ -38,19 +39,19 @@ document
     document.getElementById("rules-modal").style.display = "none";
   });
 startBtn.addEventListener("click", startBlackjack);
-level1Btn.addEventListener("click", () => {
-  startLevel();
-});
-playerStartBtn.addEventListener("click", () => {
+level1Btn.addEventListener("click", startLevel);
+playerStartBtn.addEventListener("click", startGame);
+noNewCardBtn.addEventListener("click", endGame);
+newCardBtn.addEventListener("click", () => getCards(1, "player"));
+
+function startGame() {
   playerStartBtn.disabled = true;
 
   playerScore = 0;
   dealerScore = 0;
   getCards(2, "dealer");
   getCards(2, "player");
-});
-noNewCardBtn.addEventListener("click", endGame);
-newCardBtn.addEventListener("click", () => getCards(1, "player"));
+}
 
 function startBlackjack() {
   document.getElementById("header").style.display = "none";
@@ -83,13 +84,27 @@ function getCards(num, player) {
   )
     .then((res) => res.json())
     .then((data) => {
-      cardsHtml = data.cards
-        .map((el) => {
-          return `
+      if (player === "dealer") {
+        cardsHtml = `
+        <img class="card placeholder" src="${data.cards[0].image}"/>
+        <div class="placeholder no-show">?</div>
+        `;
+        cardsHtmlDealerComplete = data.cards
+          .map((el) => {
+            return `
     <img class="card placeholder" src="${el.image}"/>
     `;
-        })
-        .join("");
+          })
+          .join("");
+      } else {
+        cardsHtml = data.cards
+          .map((el) => {
+            return `
+    <img class="card placeholder" src="${el.image}"/>
+    `;
+          })
+          .join("");
+      }
 
       renderCards(num, player, cardsHtml, data);
     });
@@ -149,7 +164,7 @@ function endGame() {
       console.log("you lose");
     }
   }
-
+  document.getElementById("dealer-cards").innerHTML = cardsHtmlDealerComplete;
   newCardBtn.disabled = true;
   noNewCardBtn.disabled = true;
   playerStartBtn.disabled = false;
@@ -157,11 +172,13 @@ function endGame() {
 
 // rules and timer elements
 function startCountdown() {
-  let count = 10;
+  let count = 60;
   let timer = setInterval(function () {
     document.getElementById("timer").innerHTML = count--;
     if (count === -1) {
       clearInterval(timer);
+      newCardBtn.disabled = true;
+      noNewCardBtn.disabled = true;
       console.log("time is up");
     }
   }, 1000);
