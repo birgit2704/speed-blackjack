@@ -1,5 +1,3 @@
-// messsage tie and dealer blackjack
-// implement ACE
 // play with two decks
 
 const startBtn = document.getElementById("start-btn");
@@ -25,6 +23,9 @@ let inLevel3 = false;
 let earlyEnd = false;
 let timer;
 let remainingCardsInDeck;
+let deductAce1 = 0;
+let deductAce2 = 0;
+let deductAce3 = 0;
 const replace = {
   2: "2",
   3: "3",
@@ -42,15 +43,15 @@ const replace = {
 };
 
 function checkGame() {
-  if (inLevel1 && winningGames > 2) {
+  if (inLevel1 && winningGames > 1) {
     earlyEnd = true;
     continueGame();
   }
-  if (inLevel2 && winningGames > 3) {
+  if (inLevel2 && winningGames > 2) {
     earlyEnd = true;
     continueGame();
   }
-  if (inLevel3 && winningGames > 4) {
+  if (inLevel3 && winningGames > 3) {
     earlyEnd = true;
     continueGame();
   }
@@ -66,7 +67,9 @@ startBtn.addEventListener("click", startBlackjack);
 level1Btn.addEventListener("click", startLevel);
 playerStartBtn.addEventListener("click", startGame);
 noNewCardBtn.addEventListener("click", endGame);
-newCardBtn.addEventListener("click", () => getCards(1, "player"));
+newCardBtn.addEventListener("click", () => {
+  getCards(1, "player");
+});
 
 level2Btn.addEventListener("click", startLevel);
 level3Btn.addEventListener("click", startLevel);
@@ -75,6 +78,9 @@ function startGame() {
   playerStartBtn.disabled = true;
   playerScore = 0;
   dealerScore = 0;
+  deductAce1 = 0;
+  deductAce2 = 0;
+  deductAce3 = 0;
   getCards(2, "dealer");
   getCards(2, "player");
 }
@@ -99,7 +105,10 @@ function startLevel() {
   ).innerHTML = `<div class="placeholder"></div>
   <div class="placeholder"></div>`;
   playerStartBtn.disabled = false;
+  startAndEndTimer();
+}
 
+function startAndEndTimer() {
   timerEl.style.display = "block";
   winningGames = 0;
   document.getElementById("score").textContent = `Games won: ${winningGames}`;
@@ -139,8 +148,8 @@ function getCards(num, player) {
         cardsHtmlDealerComplete = data.cards
           .map((el) => {
             return `
-    <img class="card placeholder" src="${el.image}"/>
-    `;
+              <img class="card placeholder" src="${el.image}"/>
+            `;
           })
           .join("");
       } else {
@@ -151,8 +160,11 @@ function getCards(num, player) {
     `;
           })
           .join("");
+        if (num === 1 && data.cards[0].value === "ACE") {
+          deductAce3 = 10;
+          console.log("deduct3", deductAce3);
+        }
       }
-
       renderCards(num, player, cardsHtml, data);
     });
 }
@@ -163,12 +175,13 @@ function renderCards(num, player, cardsHtml, data) {
     determineWinner(player, data);
   } else {
     document.getElementById(`${player}-cards`).innerHTML = cardsHtml;
-    determineWinner(player, data);
+    determineWinner(player, data, num);
   }
 }
 
-function determineWinner(player, data) {
+function determineWinner(player, data, num) {
   if (player === "player") {
+    if (data.cards.map((el) => el.value).includes("ACE"));
     playerScore += data.cards
       .map((el) => replace[el.value])
       .map((el) => +el)
@@ -180,10 +193,43 @@ function determineWinner(player, data) {
       .reduce((sum, el) => sum + el);
   }
 
+  // treat ACE either as 1 or as 11
+
+  if (player === "player" && num === 2 && data.cards[0].value === "ACE") {
+    deductAce1 = 10;
+  }
+  if (player === "player" && num === 2 && data.cards[1].value === "ACE") {
+    deductAce2 = 10;
+  }
+
+  // if (num === 1 && data.cards[0].value === "ACE") {
+  //   deductAce3 = 10;
+  // }
+
+  if (playerScore > 21 && (deductAce1 || deductAce2 || deductAce3)) {
+    if (deductAce1) {
+      playerScore -= deductAce1;
+      deductAce1 = 0;
+    }
+    if (deductAce2) {
+      playerScore -= deductAce2;
+      deductAce2 = 0;
+    }
+    if (deductAce3) {
+      playerScore -= deductAce3;
+      deductAce3 = 0;
+    }
+  }
+
   if (playerScore < 22) {
     newCardBtn.disabled = false;
     noNewCardBtn.disabled = false;
   } else endGame();
+
+  console.log("deduct1", deductAce1);
+  console.log("deduct2", deductAce2);
+  console.log("deduct3", deductAce3);
+  console.log(playerScore);
 }
 
 function endGame() {
@@ -218,10 +264,13 @@ function endGame() {
       displayResultMessage("it's a tie");
     }
   }
+
   document.getElementById("dealer-cards").innerHTML = cardsHtmlDealerComplete;
   newCardBtn.disabled = true;
   noNewCardBtn.disabled = true;
   playerStartBtn.disabled = false;
+  aceInCards = false;
+  anotherAceInCards = false;
 }
 
 function renderWinningGames() {
@@ -248,7 +297,7 @@ function startCountdown() {
 
 function continueGame() {
   if (inLevel1) {
-    if (winningGames > 2) {
+    if (winningGames > 1) {
       inLevel1 = false;
       inLevel2 = true;
       displayResultMessage("you reached level 2", 4000);
@@ -260,7 +309,7 @@ function continueGame() {
       }, 4000);
     }
   } else if (inLevel2) {
-    if (winningGames > 3) {
+    if (winningGames > 2) {
       inLevel2 = false;
       inLevel3 = true;
       displayResultMessage("you reached the final level", 4000);
@@ -272,7 +321,7 @@ function continueGame() {
       }, 4000);
     }
   } else if (inLevel3) {
-    if (winningGames > 4) {
+    if (winningGames > 3) {
       inLevel3 = false;
       displayResultMessage("Congratulations, you won the game", 6000);
       setTimeout(function () {
