@@ -1,3 +1,7 @@
+// messsage tie and dealer blackjack
+// implement ACE
+// play with two decks
+
 const startBtn = document.getElementById("start-btn");
 const level1Btn = document.getElementById("level1-btn");
 const level2Btn = document.getElementById("level2-btn");
@@ -14,6 +18,13 @@ let deckId = "";
 let dealerScore = 0;
 let playerScore = 0;
 let cardsHtmlDealerComplete = "";
+let winningGames = 0;
+let inLevel1 = true;
+let inLevel2 = false;
+let inLevel3 = false;
+let earlyEnd = false;
+let timer;
+let remainingCardsInDeck;
 const replace = {
   2: "2",
   3: "3",
@@ -27,26 +38,41 @@ const replace = {
   JACK: "10",
   QUEEN: "10",
   KING: "10",
-  ACE: "1",
+  ACE: "11",
 };
 
-document.getElementById("rules").addEventListener("click", function () {
+function checkGame() {
+  if (inLevel1 && winningGames > 2) {
+    earlyEnd = true;
+    continueGame();
+  }
+  if (inLevel2 && winningGames > 3) {
+    earlyEnd = true;
+    continueGame();
+  }
+  if (inLevel3 && winningGames > 4) {
+    earlyEnd = true;
+    continueGame();
+  }
+}
+
+document.getElementById("rules").addEventListener("click", () => {
   document.getElementById("rules-modal").style.display = "block";
 });
-document
-  .getElementById("close-rules-btn")
-  .addEventListener("click", function () {
-    document.getElementById("rules-modal").style.display = "none";
-  });
+document.getElementById("close-rules-btn").addEventListener("click", () => {
+  document.getElementById("rules-modal").style.display = "none";
+});
 startBtn.addEventListener("click", startBlackjack);
 level1Btn.addEventListener("click", startLevel);
 playerStartBtn.addEventListener("click", startGame);
 noNewCardBtn.addEventListener("click", endGame);
 newCardBtn.addEventListener("click", () => getCards(1, "player"));
 
+level2Btn.addEventListener("click", startLevel);
+level3Btn.addEventListener("click", startLevel);
+
 function startGame() {
   playerStartBtn.disabled = true;
-
   playerScore = 0;
   dealerScore = 0;
   getCards(2, "dealer");
@@ -61,11 +87,30 @@ function startBlackjack() {
 
 function startLevel() {
   level1El.style.display = "none";
+  level2El.style.display = "none";
+  level3El.style.display = "none";
   gameAreaEl.style.display = "flex";
-  timerEl.style.display = "block";
+  document.getElementById(
+    "dealer-cards"
+  ).innerHTML = ` <div class="placeholder" id="placeholder"></div>
+  <div class="placeholder no-show">?</div>`;
+  document.getElementById(
+    "player-cards"
+  ).innerHTML = `<div class="placeholder"></div>
+  <div class="placeholder"></div>`;
+  playerStartBtn.disabled = false;
 
-  startCountdown();
+  timerEl.style.display = "block";
+  winningGames = 0;
+  document.getElementById("score").textContent = `Games won: ${winningGames}`;
   getDeck();
+  if (inLevel1) startCountdown();
+  else if (inLevel2 || (inLevel3 && earlyEnd === true)) {
+    setTimeout(function () {
+      earlyEnd = false;
+      startCountdown();
+    }, 500);
+  }
 }
 
 function getDeck() {
@@ -73,7 +118,9 @@ function getDeck() {
     .then((res) => res.json())
     .then((data) => {
       deckId = data.deck_id;
-      console.log(deckId);
+      remainingCardsInDeck = data.remaining;
+      console.log(data);
+      console.log(remainingCardsInDeck);
     });
 }
 
@@ -133,10 +180,7 @@ function determineWinner(player, data) {
       .reduce((sum, el) => sum + el);
   }
 
-  console.log("dealer", dealerScore);
-  console.log("player", playerScore);
-
-  if (playerScore < 21) {
+  if (playerScore < 22) {
     newCardBtn.disabled = false;
     noNewCardBtn.disabled = false;
   } else endGame();
@@ -145,23 +189,33 @@ function determineWinner(player, data) {
 function endGame() {
   if (playerScore === 21) {
     if (dealerScore === 21) {
-      console.log("both win");
+      displayResultMessage("it's a tie");
+      renderWinningGames();
     } else {
-      console.log("Blackjack you win");
+      displayResultMessage("Blackjack!! you win");
+      renderWinningGames();
     }
   } else if (playerScore > 21) {
     if (dealerScore > 21) {
-      console.log("you both lose");
+      displayResultMessage("you both lose");
+    } else if (dealerScore === 21) {
+      displayResultMessage("Blackjack dealer");
     } else {
-      console.log("you lose");
+      displayResultMessage("you lose");
     }
   } else if (playerScore < 21) {
     if (dealerScore > 21) {
-      console.log("you win");
+      displayResultMessage("you win");
+      renderWinningGames();
+    } else if (dealerScore === 21) {
+      displayResultMessage("Blackjack dealer");
     } else if (playerScore > dealerScore) {
-      console.log("you win");
+      displayResultMessage("you win");
+      renderWinningGames();
     } else if (playerScore < dealerScore) {
-      console.log("you lose");
+      displayResultMessage("you lose");
+    } else if (playerScore === dealerScore) {
+      displayResultMessage("it's a tie");
     }
   }
   document.getElementById("dealer-cards").innerHTML = cardsHtmlDealerComplete;
@@ -170,18 +224,74 @@ function endGame() {
   playerStartBtn.disabled = false;
 }
 
+function renderWinningGames() {
+  winningGames += 1;
+  document.getElementById("score").textContent = `Games won: ${winningGames}`;
+  checkGame();
+}
 // rules and timer elements
 function startCountdown() {
   let count = 60;
   let timer = setInterval(function () {
-    document.getElementById("timer").innerHTML = count--;
+    document.getElementById("countdown").innerHTML = count--;
+    if (earlyEnd) clearInterval(timer);
     if (count === -1) {
       clearInterval(timer);
       newCardBtn.disabled = true;
       noNewCardBtn.disabled = true;
-      console.log("time is up");
+      playerStartBtn.disabled = true;
+      displayResultMessage("time is up", 4000);
+      continueGame();
     }
   }, 1000);
+}
+
+function continueGame() {
+  if (inLevel1) {
+    if (winningGames > 2) {
+      inLevel1 = false;
+      inLevel2 = true;
+      displayResultMessage("you reached level 2", 4000);
+      level2El.style.display = "block";
+      gameAreaEl.style.display = "none";
+    } else {
+      setTimeout(function () {
+        window.location.reload();
+      }, 4000);
+    }
+  } else if (inLevel2) {
+    if (winningGames > 3) {
+      inLevel2 = false;
+      inLevel3 = true;
+      displayResultMessage("you reached the final level", 4000);
+      level3El.style.display = "block";
+      gameAreaEl.style.display = "none";
+    } else {
+      setTimeout(function () {
+        window.location.reload();
+      }, 4000);
+    }
+  } else if (inLevel3) {
+    if (winningGames > 4) {
+      inLevel3 = false;
+      displayResultMessage("Congratulations, you won the game", 6000);
+      setTimeout(function () {
+        window.location.reload();
+      }, 6000);
+    } else {
+      setTimeout(function () {
+        window.location.reload();
+      }, 4000);
+    }
+  }
+}
+
+function displayResultMessage(text, time = 1000) {
+  document.getElementById("result-message").textContent = `${text}`;
+  document.getElementById("result-message").style.display = "inline";
+  setTimeout(function () {
+    document.getElementById("result-message").style.display = "none";
+  }, time);
 }
 
 // text effect typewriter

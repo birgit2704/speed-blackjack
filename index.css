@@ -150,7 +150,6 @@ button.player-control {
   background-color: #555;
   width: 75vw;
   max-width: 800px;
-  /* overflow-y: scroll; */
   line-height: 1.5;
   position: absolute;
   top: 0;
@@ -190,6 +189,22 @@ button.player-control {
   display: none;
 }
 
+/* result message */
+.result-message {
+  height: 100px;
+  line-height: 100px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: rgb(255, 0, 0, 0.7);
+  border-radius: 20px;
+  color: black;
+  padding: 0;
+  display: none;
+}
 /* text effect turning letters */
 .waviy {
   margin-top: 20px;
