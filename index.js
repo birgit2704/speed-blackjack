@@ -387,7 +387,9 @@ function startCountdown() {
       playerStartBtn.style.display = "none";
       newCardBtn.style.display = "none";
       noNewCardBtn.style.display = "none";
-      continueNextLevel();
+      setTimeout(() => {
+        continueNextLevel();
+      }, 2000);
     }
   }, 1000);
 }
