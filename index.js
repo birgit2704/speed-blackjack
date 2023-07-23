@@ -309,7 +309,7 @@ function continueNextLevel() {
       inLevel1 = false;
       inLevel2 = true;
       setTimeout(function () {
-        displayResultMessage("you reached level 2", 4000);
+        displayResultMessage("Level 2", 4000);
         level2El.style.display = "block";
         gameAreaEl.style.display = "none";
       }, 2000);
@@ -323,7 +323,7 @@ function continueNextLevel() {
       inLevel2 = false;
       inLevel3 = true;
       setTimeout(function () {
-        displayResultMessage("you reached the final level", 4000);
+        displayResultMessage("Final level", 4000);
         level3El.style.display = "block";
         gameAreaEl.style.display = "none";
       }, 2000);
@@ -336,14 +336,11 @@ function continueNextLevel() {
     if (winningGames > 6) {
       inLevel3 = false;
       setTimeout(function () {
-        displayResultMessage("Congratulations, you won the game", 6000);
+        displayResultMessage("Congratulations, you won the game", 4000);
         playerStartBtn.style.display = "none";
         newCardBtn.style.display = "none";
         noNewCardBtn.style.display = "none";
-        setTimeout(() => {
-          window.location.reload();
-        }, 6000);
-      }, 2000);
+      }, 3000);
     } else {
       setTimeout(() => {
         window.location.reload();
