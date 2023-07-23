@@ -260,8 +260,22 @@ button.player-control {
   .level3 p {
     font-size: 1.5rem;
   }
+  .timer {
+    font-size: 1.2rem;
+  }
+  button {
+    font-size: 1.2rem;
+  }
+  .rules-modal {
+    overflow-y: scroll;
+  }
 }
 @media (max-width: 550px) {
+  h2 {
+    margin-bottom: 0;
+    padding-top: 50px;
+    line-height: 1.5;
+  }
   .rules-modal {
     overflow-y: scroll;
   }
@@ -291,5 +305,8 @@ button.player-control {
   .card,
   .placeholder {
     width: 20%;
+  }
+  .waviy span {
+    font-size: 25px;
   }
 }

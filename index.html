@@ -40,7 +40,7 @@
       <!-- LEVELS -->
       <section class="level1" id="level1">
         <h2>Level 1</h2>
-        <p>You have to win 4 times in 1 minute to get to level 2</p>
+        <p>You have to win 4 games in 1 minute to get to level 2</p>
         <p>You have only 1 deck of cards at your disposal.</p>
         <p>Choose wisely!</p>
         <p>
@@ -51,7 +51,7 @@
 
       <section class="level2" id="level2">
         <h2>Level 2</h2>
-        <p>You have to win 5 times in 1 minute to get to the final level</p>
+        <p>You have to win 5 games in 1 minute to get to the final level</p>
         <p>You have only 1 deck of cards at your disposal.</p>
         <p>Choose wisely!</p>
         <button id="level2-btn">Start Level 2</button>
@@ -59,7 +59,7 @@
 
       <section class="level3" id="level3">
         <h2>Final Level</h2>
-        <p>You have to win 6 times in 1 minute to win the game</p>
+        <p>You have to win 6 games in 1 minute to win the game</p>
         <p>You have only 1 deck of cards at your disposal.</p>
         <p>Choose wisely!</p>
         <button id="level3-btn">Start Final Level</button>
@@ -70,14 +70,12 @@
         <section class="dealer" id="dealer">
           <p>Dealer's cards:</p>
           <div class="dealer-cards" id="dealer-cards">
-            <!-- <div class="placeholder" id="placeholder"></div>
-            <div class="placeholder no-show">?</div> -->
+            <!-- dealer cards here -->
           </div>
         </section>
         <section class="player" id="player">
           <div class="player-cards" id="player-cards">
-            <!-- <div class="placeholder"></div>
-            <div class="placeholder"></div> -->
+            <!-- player cards here -->
           </div>
           <div class="player-controls">
             <button class="player-control" id="player-start-btn">Start</button>
@@ -110,6 +108,8 @@
           round
         </p>
         <h3>Special rules</h3>
+        <p>Number cards count their number value</p>
+        <p>JACK, QUEEN and KING count as 10</p>
         <p>An ACE can count as 1 or 11, depending what favours you most</p>
         <p>You cannot see the dealer's second card</p>
         <p>The dealer will NOT draw an additional card</p>
