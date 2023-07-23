@@ -1,6 +1,3 @@
-// play with two decks
-//delay next level message
-
 const startBtn = document.getElementById("start-btn");
 
 const level1Btn = document.getElementById("level1-btn");
@@ -123,12 +120,18 @@ function getDeck() {
 }
 
 function updateRemainingCards() {
+  if (remainingCardsInDeck < 0) {
+    remainingCardsInDeck = 0;
+  }
   document.getElementById(
     "cards-remaining"
   ).textContent = `Cards remaining: ${remainingCardsInDeck}`;
   if (remainingCardsInDeck < 1) {
-    displayResultMessage("no more cards left", 2000);
-    setTimeout(continueNextLevel, 2000);
+    displayResultMessage("no more cards left", 1500);
+    playerStartBtn.style.display = "none";
+    newCardBtn.style.display = "none";
+    noNewCardBtn.style.display = "none";
+    setTimeout(continueNextLevel, 500);
   }
 }
 
@@ -379,6 +382,9 @@ function startCountdown() {
       noNewCardBtn.disabled = true;
       playerStartBtn.disabled = true;
       displayResultMessage("time is up", 4000);
+      playerStartBtn.style.display = "none";
+      newCardBtn.style.display = "none";
+      noNewCardBtn.style.display = "none";
       continueNextLevel();
     }
   }, 1000);
