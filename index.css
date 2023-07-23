@@ -273,7 +273,7 @@ button.player-control {
 @media (max-width: 550px) {
   h2 {
     margin-bottom: 0;
-    padding-top: 50px;
+    padding-top: 160px;
     line-height: 1.5;
   }
   .rules-modal {
@@ -308,5 +308,8 @@ button.player-control {
   }
   .waviy span {
     font-size: 25px;
+  }
+  .result-message {
+    font-size: 2rem;
   }
 }

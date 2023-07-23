@@ -354,7 +354,7 @@ function continueNextLevel() {
 
 function displayResultMessage(text, time = 1000) {
   document.getElementById("result-message").textContent = `${text}`;
-  document.getElementById("result-message").style.display = "inline";
+  document.getElementById("result-message").style.display = "block";
   setTimeout(() => {
     document.getElementById("result-message").style.display = "none";
   }, time);
