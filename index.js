@@ -376,7 +376,7 @@ function startAndEndTimer() {
 function startCountdown() {
   let count = 60;
   let timer = setInterval(() => {
-    document.getElementById("countdown").innerHTML = count--;
+    document.getElementById("countdown").innerHTML = `${count--}s`;
     if (earlyEnd) clearInterval(timer);
     if (count === -1) {
       clearInterval(timer);
