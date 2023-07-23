@@ -40,7 +40,9 @@
       <!-- LEVELS -->
       <section class="level1" id="level1">
         <h2>Level 1</h2>
-        <p>You have to win 5 times in 1 minute to get to level 2</p>
+        <p>You have to win 4 times in 1 minute to get to level 2</p>
+        <p>You have only 1 deck of cards at your disposal.</p>
+        <p>Choose wisely!</p>
         <p>
           To see the game's rules, press the RULES button on the bottom left
         </p>
@@ -49,13 +51,17 @@
 
       <section class="level2" id="level2">
         <h2>Level 2</h2>
-        <p>You have to win 7 times in 1 minute to get to the final level</p>
+        <p>You have to win 5 times in 1 minute to get to the final level</p>
+        <p>You have only 1 deck of cards at your disposal.</p>
+        <p>Choose wisely!</p>
         <button id="level2-btn">Start Level 2</button>
       </section>
 
       <section class="level3" id="level3">
         <h2>Final Level</h2>
-        <p>You have to win 9 times in 1 minute to win the game</p>
+        <p>You have to win 6 times in 1 minute to win the game</p>
+        <p>You have only 1 deck of cards at your disposal.</p>
+        <p>Choose wisely!</p>
         <button id="level3-btn">Start Final Level</button>
       </section>
 
@@ -112,7 +118,10 @@
 
       <!-- TIMER -->
       <div id="timer" class="timer">
+        <div id="level">Level 1</div>
         <div id="countdown"></div>
+        <!-- CARDS REMAINING -->
+        <div id="cards-remaining">Cards remaining:</div>
         <!-- SCORE -->
         <div id="score" class="score">Games won:</div>
       </div>

@@ -66,6 +66,11 @@ button.player-control {
   margin-top: 40px;
   word-spacing: -7px;
 }
+#level1-btn,
+#level2-btn,
+#level3-btn {
+  margin-top: 20px;
+}
 @keyframes btn-background {
   0% {
     background-color: gold;
@@ -250,6 +255,11 @@ button.player-control {
     justify-content: center;
     gap: 100px;
   }
+  .level1 p,
+  .level2 p,
+  .level3 p {
+    font-size: 1.5rem;
+  }
 }
 @media (max-width: 550px) {
   .rules-modal {
@@ -261,5 +271,25 @@ button.player-control {
   .rules-modal h3,
   .rules-modal p {
     font-size: 0.95rem;
+  }
+  .timer {
+    font-size: 1rem;
+  }
+  .rules {
+    font-size: 1rem;
+  }
+  button {
+    font-size: 1rem;
+  }
+  .game-area {
+    gap: 20px;
+  }
+  .player-cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .card,
+  .placeholder {
+    width: 20%;
   }
 }
