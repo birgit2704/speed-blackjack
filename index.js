@@ -76,8 +76,12 @@ function startLevel() {
     document.getElementById("level").textContent = "Level 3";
   }
   winningGames = 0;
-  ofGames = inLevel1 ? 4 : inLevel2 ? 5 : 6;
+  ofGames = inLevel1 ? 4 : inLevel2 ? 5 : 7;
+  document.getElementById(
+    "score"
+  ).textContent = `Games won: ${winningGames} of ${ofGames}`;
   remainingCardsInDeck = 52;
+
   level1El.style.display = "none";
   level2El.style.display = "none";
   level3El.style.display = "none";
@@ -358,8 +362,6 @@ function displayResultMessage(text, time = 1000) {
 
 function startAndEndTimer() {
   timerEl.style.display = "block";
-
-  document.getElementById("score").textContent = `Games won: 0 of 4`;
 
   getDeck();
   if (inLevel1) startCountdown();
