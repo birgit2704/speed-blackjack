@@ -248,6 +248,9 @@ button.player-control {
     font-size: 2rem;
     line-height: 1.5;
   }
+  #header {
+    padding-top: 200px;
+  }
   .waviy span {
     font-size: 40px;
   }
