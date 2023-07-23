@@ -76,7 +76,7 @@ function startLevel() {
     document.getElementById("level").textContent = "Level 3";
   }
   winningGames = 0;
-  ofGames = inLevel1 ? 4 : inLevel2 ? 5 : 7;
+  ofGames = inLevel1 ? 3 : inLevel2 ? 4 : 5;
   document.getElementById(
     "score"
   ).textContent = `Games won: ${winningGames} of ${ofGames}`;
@@ -286,20 +286,17 @@ function renderWinningGames() {
 }
 
 function checkGame() {
-  if (inLevel1 && winningGames === 2) {
-    // change back to 4
+  if (inLevel1 && winningGames === 3) {
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
   }
-  if (inLevel2 && winningGames === 3) {
-    // change back to 5
+  if (inLevel2 && winningGames === 4) {
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
   }
-  if (inLevel3 && winningGames === 4) {
-    //change back to 7
+  if (inLevel3 && winningGames === 5) {
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
@@ -308,8 +305,7 @@ function checkGame() {
 
 function continueNextLevel() {
   if (inLevel1) {
-    if (winningGames > 1) {
-      //change back to 3
+    if (winningGames > 2) {
       inLevel1 = false;
       inLevel2 = true;
       setTimeout(function () {
@@ -323,8 +319,7 @@ function continueNextLevel() {
       }, 4000);
     }
   } else if (inLevel2) {
-    if (winningGames > 2) {
-      //change back to 4
+    if (winningGames > 3) {
       inLevel2 = false;
       inLevel3 = true;
       setTimeout(function () {
@@ -338,8 +333,7 @@ function continueNextLevel() {
       }, 3000);
     }
   } else if (inLevel3) {
-    if (winningGames > 3) {
-      //change back to 6
+    if (winningGames > 4) {
       inLevel3 = false;
       setTimeout(function () {
         displayResultMessage("Congratulations, you won the game!!!", 10000);
