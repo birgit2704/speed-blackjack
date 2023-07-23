@@ -286,17 +286,20 @@ function renderWinningGames() {
 }
 
 function checkGame() {
-  if (inLevel1 && winningGames === 4) {
+  if (inLevel1 && winningGames === 2) {
+    // change back to 4
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
   }
-  if (inLevel2 && winningGames === 5) {
+  if (inLevel2 && winningGames === 3) {
+    // change back to 5
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
   }
-  if (inLevel3 && winningGames === 6) {
+  if (inLevel3 && winningGames === 4) {
+    //change back to 7
     playerStartBtn.disabled === true;
     earlyEnd = true;
     continueNextLevel();
@@ -305,11 +308,12 @@ function checkGame() {
 
 function continueNextLevel() {
   if (inLevel1) {
-    if (winningGames > 3) {
+    if (winningGames > 1) {
+      //change back to 3
       inLevel1 = false;
       inLevel2 = true;
       setTimeout(function () {
-        displayResultMessage("Level 2", 4000);
+        displayResultMessage("Level 2", 3000);
         level2El.style.display = "block";
         gameAreaEl.style.display = "none";
       }, 2000);
@@ -319,11 +323,12 @@ function continueNextLevel() {
       }, 4000);
     }
   } else if (inLevel2) {
-    if (winningGames > 4) {
+    if (winningGames > 2) {
+      //change back to 4
       inLevel2 = false;
       inLevel3 = true;
       setTimeout(function () {
-        displayResultMessage("Final level", 4000);
+        displayResultMessage("Final level", 3000);
         level3El.style.display = "block";
         gameAreaEl.style.display = "none";
       }, 2000);
@@ -333,14 +338,16 @@ function continueNextLevel() {
       }, 3000);
     }
   } else if (inLevel3) {
-    if (winningGames > 6) {
+    if (winningGames > 3) {
+      //change back to 6
       inLevel3 = false;
       setTimeout(function () {
-        displayResultMessage("Congratulations, you won the game", 4000);
+        displayResultMessage("Congratulations, you won the game!!!", 10000);
+        setTimeout(() => window.location.reload(), 10000);
         playerStartBtn.style.display = "none";
         newCardBtn.style.display = "none";
         noNewCardBtn.style.display = "none";
-      }, 3000);
+      }, 2000);
     } else {
       setTimeout(() => {
         window.location.reload();
