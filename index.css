@@ -271,7 +271,7 @@ button.player-control {
   }
 }
 @media (max-width: 550px) {
-  h2 {
+  section h2 {
     margin-bottom: 0;
     padding-top: 160px;
     line-height: 1.5;
